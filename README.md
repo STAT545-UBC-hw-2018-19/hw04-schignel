@@ -1,2 +1,2 @@
 # hw04-schignel
-Repo for Steve Chignell's Homework 04 assignment
+Repo for STAT454 - Homework 04

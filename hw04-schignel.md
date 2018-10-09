@@ -7,7 +7,7 @@ October 9, 2018
 -   [Data Reshaping](#data-reshaping)
 
 Overview
-========
+--------
 
 **Goal:** Solidify data wrangling skills by working on some realistic problems in the grey area between data aggregation and data reshaping.
 
@@ -19,7 +19,7 @@ Overview
 It is fine to work with a new dataset and/or create variations on these problem themes.
 
 Data Reshaping
-==============
+--------------
 
 **Problem:** You have data in one “shape” but you wish it were in another. Usually this is because the alternative shape is superior for presenting a table, making a figure, or doing aggregation and statistical analysis.
 

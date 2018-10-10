@@ -66,8 +66,9 @@ We are now ready to practice different types of joins between the supplementatry
 ####Left Join
 `left_join` is the most common way to merge to data sets:
 ```{r left join, warning=FALSE}
+#Left join and pipe to str() to inspect without generating massive table
 left_join(gapminder, supp, by = "country") %>% 
-  str() #pipe to str() to inspect without generating massive table
+  str() 
 ```
 
 Because we specified `gapminder` as the lefthand column, `left_join` kept all of the `gapminder` records while successfully joining the `area_km2` and `capital` variables to it. Notice that the funtion has inserted "NA" values for countries not listed in the supplementary table. 
@@ -86,11 +87,13 @@ What if we wanted an output containing only the countries listed in both dataset
 
 For this we use the `inner_join` function:
 ```{r inner join, warning=FALSE}
+#Inner join and nice table to preview
 knitr::kable(head(inner <- inner_join(gapminder, supp, by = "country")))
 ```
 
 We can see that the variables `area_km2` and `capital` are joined, but we can't see from this table whether or not it removed the records that didn't match. Let's check with the `str()` function.  
 ```{r inner str}
+#Look at the structure
 str(inner)
 ```
 
@@ -110,7 +113,7 @@ Interpretating this result, we see that South Sudan became a country in 2011, an
 ####Full Join
 To keep all data in both tables, we can use the `full_join` function
 ```{r full join, warning=FALSE}
-str((full <- full_join(gapminder, supp, by = "country")))
+str((full_join(gapminder, supp, by = "country")))
 ```
 Here we see that the output has 1705 observations of 8 variables, indicating that operation has kept all data from both tables, and replaced missing data cells with "NA".
 

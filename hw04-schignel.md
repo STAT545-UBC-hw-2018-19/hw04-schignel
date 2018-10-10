@@ -4,7 +4,8 @@ Stephen Chignell
 October 9, 2018
 
 -   [Overview](#overview)
-    -   [Activity \#1: Cheat Sheet](#activity-1-cheat-sheet)
+    -   [Reshaping](#reshaping)
+    -   [Joining](#joining)
 
 Overview
 --------
@@ -18,6 +19,19 @@ Overview
 
 It is fine to work with a new dataset and/or create variations on these problem themes.
 
-### Activity \#1: Cheat Sheet
+### Reshaping
+
+#### Activity \#1: Cheat Sheet
 
 I have developed a separate [Cheat Sheet](https://github.com/STAT545-UBC-students/hw04-schignel/blob/master/Reshaping_in_tidyR_-_cheat_sheet.md), which is stored in the Homework 4 repository.
+
+### Joining
+
+#### Activity \#1
+
+Activity \#1
+
+Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a dplyr join function and make some observations about the process and result. Explore the different types of joins. Examples of a second data frame you could build:
+
+-   One row per country, a country variable and one or more variables with extra info, such as language spoken, NATO membership, national animal, or capitol city.
+-   One row per continent, a continent variable and one or more variables with extra info, such as northern versus southern hemisphere.

@@ -175,14 +175,15 @@ Just as we would expect `gapminder` has been reduced from 1704 to 96 observation
 We can find the source of this discrepancy using an `anti_join`, which returns all rows from the first table where there are not matching values in the second, filtering the output to include just columns from the first table.
 
 ``` r
-#Put the supplementary table first to identify discrepancy
-anti_join(supp, gapminder, by = "country")
+# Supplementary table is first listed to identify discrepancy
+knitr::kable(anti_join(supp, gapminder, by = "country"))
 ```
 
-    ##       country area_km2 capital
-    ## 1 South Sudan   619745    Juba
+| country     |  area\_km2| capital |
+|:------------|----------:|:--------|
+| South Sudan |     619745| Juba    |
 
-Interpretating this result, we see that South Sudan became a country in 2011, and is therefore not included in the `gapminder` data set, which includes data up to 2007.
+Interpretating this result, we can recall that South Sudan became a country in 2011, and is therefore not included in the `gapminder` data set, which includes data up to 2007.
 
 #### Full Join
 

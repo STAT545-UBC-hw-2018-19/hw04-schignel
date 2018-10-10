@@ -41,7 +41,7 @@ The primary functions are below.
 
 ### Demonstration
 
-We will demo the `spread` and `gather`, since they are the most commonly used. First, load the required libraries:
+We will demo the `spread` and `gather` functions, since they are the most commonly used. First, load the required libraries:
 
 ``` r
 suppressPackageStartupMessages(library(tidyr))
@@ -66,16 +66,16 @@ knitr::kable(baseball)
 
 | ID  |  Blue\_Jays|  Cardinals|  Cubs|  Mariners|
 |:----|-----------:|----------:|-----:|---------:|
-| A   |           1|          0|     1|         0|
-| B   |           0|          0|     1|         1|
-| C   |           1|          1|     1|         0|
-| D   |           0|          0|     0|         1|
-| E   |           1|          1|     1|         1|
-| F   |           1|          0|     1|         0|
-| G   |           0|          0|     1|         1|
-| H   |           1|          1|     1|         0|
-| I   |           0|          0|     0|         1|
-| J   |           1|          1|     1|         1|
+| A   |           0|          1|     1|         1|
+| B   |           0|          1|     1|         1|
+| C   |           0|          1|     0|         1|
+| D   |           0|          0|     1|         1|
+| E   |           1|          0|     1|         1|
+| F   |           0|          1|     1|         1|
+| G   |           0|          1|     1|         1|
+| H   |           0|          1|     0|         1|
+| I   |           0|          0|     1|         1|
+| J   |           1|          0|     1|         1|
 
 #### Gather the data
 
@@ -86,44 +86,44 @@ knitr::kable(bb.long)
 
 | ID  | Teams      |  Runs|
 |:----|:-----------|-----:|
-| A   | Blue\_Jays |     1|
+| A   | Blue\_Jays |     0|
 | B   | Blue\_Jays |     0|
-| C   | Blue\_Jays |     1|
+| C   | Blue\_Jays |     0|
 | D   | Blue\_Jays |     0|
 | E   | Blue\_Jays |     1|
-| F   | Blue\_Jays |     1|
+| F   | Blue\_Jays |     0|
 | G   | Blue\_Jays |     0|
-| H   | Blue\_Jays |     1|
+| H   | Blue\_Jays |     0|
 | I   | Blue\_Jays |     0|
 | J   | Blue\_Jays |     1|
-| A   | Cardinals  |     0|
-| B   | Cardinals  |     0|
+| A   | Cardinals  |     1|
+| B   | Cardinals  |     1|
 | C   | Cardinals  |     1|
 | D   | Cardinals  |     0|
-| E   | Cardinals  |     1|
-| F   | Cardinals  |     0|
-| G   | Cardinals  |     0|
+| E   | Cardinals  |     0|
+| F   | Cardinals  |     1|
+| G   | Cardinals  |     1|
 | H   | Cardinals  |     1|
 | I   | Cardinals  |     0|
-| J   | Cardinals  |     1|
+| J   | Cardinals  |     0|
 | A   | Cubs       |     1|
 | B   | Cubs       |     1|
-| C   | Cubs       |     1|
-| D   | Cubs       |     0|
+| C   | Cubs       |     0|
+| D   | Cubs       |     1|
 | E   | Cubs       |     1|
 | F   | Cubs       |     1|
 | G   | Cubs       |     1|
-| H   | Cubs       |     1|
-| I   | Cubs       |     0|
+| H   | Cubs       |     0|
+| I   | Cubs       |     1|
 | J   | Cubs       |     1|
-| A   | Mariners   |     0|
+| A   | Mariners   |     1|
 | B   | Mariners   |     1|
-| C   | Mariners   |     0|
+| C   | Mariners   |     1|
 | D   | Mariners   |     1|
 | E   | Mariners   |     1|
-| F   | Mariners   |     0|
+| F   | Mariners   |     1|
 | G   | Mariners   |     1|
-| H   | Mariners   |     0|
+| H   | Mariners   |     1|
 | I   | Mariners   |     1|
 | J   | Mariners   |     1|
 
@@ -139,16 +139,16 @@ bb.long %>%
 
 | ID  |  Blue\_Jays|  Cardinals|  Cubs|  Mariners|
 |:----|-----------:|----------:|-----:|---------:|
-| A   |           1|          0|     1|         0|
-| B   |           0|          0|     1|         1|
-| C   |           1|          1|     1|         0|
-| D   |           0|          0|     0|         1|
-| E   |           1|          1|     1|         1|
-| F   |           1|          0|     1|         0|
-| G   |           0|          0|     1|         1|
-| H   |           1|          1|     1|         0|
-| I   |           0|          0|     0|         1|
-| J   |           1|          1|     1|         1|
+| A   |           0|          1|     1|         1|
+| B   |           0|          1|     1|         1|
+| C   |           0|          1|     0|         1|
+| D   |           0|          0|     1|         1|
+| E   |           1|          0|     1|         1|
+| F   |           0|          1|     1|         1|
+| G   |           0|          1|     1|         1|
+| H   |           0|          1|     0|         1|
+| I   |           0|          0|     1|         1|
+| J   |           1|          0|     1|         1|
 
 ### Additional Resources
 

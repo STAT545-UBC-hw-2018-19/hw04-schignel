@@ -11,6 +11,7 @@ October 9, 2018
     -   [Left Join](#left-join)
     -   [Right Join](#right-join)
     -   [Inner Join](#inner-join)
+    -   [Anti Join](#anti-join)
     -   [Full Join](#full-join)
 
 Overview
@@ -46,7 +47,7 @@ suppressPackageStartupMessages(library(gapminder))
 
 #### Create new table
 
-Next, we will create a new data frame with supplementary information for a subset of the `gapminder` records.
+Next, we will create a new data frame with supplementary information to join to`gapminder`.
 
 ``` r
 # Create a list of country names
@@ -77,7 +78,7 @@ knitr::kable(supp, caption = "Supplementary country data")
 | Australia   |    7692024| Canberra     |
 | South Sudan |     619745| Juba         |
 
-**Table data sources**
+**Supplementary data sources**
 
 -   [Country areas](https://simple.wikipedia.org/wiki/List_of_countries_by_area?oldformat=true)
 -   [Country capitals](https://www.countries-ofthe-world.com/capitals-of-the-world.html)
@@ -89,12 +90,10 @@ We are now ready to practice different types of joins between the supplementatry
 `left_join` is the most common way to merge to data sets:
 
 ``` r
+#Left join and pipe to str() to inspect without generating massive table
 left_join(gapminder, supp, by = "country") %>% 
-  str() #pipe to str() to inspect without generating massive table
+  str() 
 ```
-
-    ## Warning: Column `country` joining factors with different levels, coercing
-    ## to character vector
 
     ## Classes 'tbl_df', 'tbl' and 'data.frame':    1704 obs. of  8 variables:
     ##  $ country  : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...
@@ -106,19 +105,17 @@ left_join(gapminder, supp, by = "country") %>%
     ##  $ area_km2 : num  NA NA NA NA NA NA NA NA NA NA ...
     ##  $ capital  : Factor w/ 9 levels "Addis Ababa",..: NA NA NA NA NA NA NA NA NA NA ...
 
-Because we specificied `gapminder` as the lefthand column, `left_join` kept all of the `gapminder` records while successfully joining the `area_km2` and `capital` variables to it. Notice that the funtion has inserted "NA" values for countries not listed in the supplementary table.
+Because we specified `gapminder` as the lefthand column, `left_join` kept all of the `gapminder` records while successfully joining the `area_km2` and `capital` variables to it. Notice that the funtion has inserted "NA" values for countries not listed in the supplementary table.
 
 #### Right Join
 
-`right_join` is the same as `left_join`, except that it keeps
+`right_join` is the same as `left_join`, except that it returns all records from the righthand table (while retaining all columns from both tables).
 
 ``` r
+#Right join and pipe to str()
 right_join(gapminder, supp, by = "country") %>% 
   str()
 ```
-
-    ## Warning: Column `country` joining factors with different levels, coercing
-    ## to character vector
 
     ## Classes 'tbl_df', 'tbl' and 'data.frame':    97 obs. of  8 variables:
     ##  $ country  : chr  "Argentina" "Argentina" "Argentina" "Argentina" ...
@@ -130,18 +127,18 @@ right_join(gapminder, supp, by = "country") %>%
     ##  $ area_km2 : num  2780400 2780400 2780400 2780400 2780400 ...
     ##  $ capital  : Factor w/ 9 levels "Addis Ababa",..: 4 4 4 4 4 4 4 4 4 4 ...
 
+Here we see that the `gapminder` dataset has been reduced from 1704 to 97 observations, and that the two additional variables from the supplementary table have been joined.
+
 #### Inner Join
 
-While keeping all of the data may be useful in some contexts, what if we wanted an output containing only the countries listed in both datasets?
+What if we wanted an output containing only the countries listed in both datasets?
 
 For this we use the `inner_join` function:
 
 ``` r
+#Inner join and nice table to preview
 knitr::kable(head(inner <- inner_join(gapminder, supp, by = "country")))
 ```
-
-    ## Warning: Column `country` joining factors with different levels, coercing
-    ## to character vector
 
 | country   | continent |  year|  lifeExp|       pop|  gdpPercap|  area\_km2| capital      |
 |:----------|:----------|-----:|--------:|---------:|----------:|----------:|:-------------|
@@ -155,6 +152,7 @@ knitr::kable(head(inner <- inner_join(gapminder, supp, by = "country")))
 We can see that the variables `area_km2` and `capital` are joined, but we can't see from this table whether or not it removed the records that didn't match. Let's check with the `str()` function.
 
 ``` r
+#Look at the structure
 str(inner)
 ```
 
@@ -168,20 +166,31 @@ str(inner)
     ##  $ area_km2 : num  2780400 2780400 2780400 2780400 2780400 ...
     ##  $ capital  : Factor w/ 9 levels "Addis Ababa",..: 4 4 4 4 4 4 4 4 4 4 ...
 
-We can see that the `gapminder` dataset has been reduced from 1704 to 96 observations, and that the two additiona variables from the supplementary table are have been joined.
+Just as we would expect `gapminder` has been reduced from 1704 to 96 observations, and the two additional variables from the supplementary table have been joined.
 
-**Question** Why does the `inner_join` output have 96 observations while the `right_join` output had 97? Reviewing the supplementary data table shows that it includes South Sudan, which became a country in 2011, and is therefore not included in the `gapminder` data set, which only has data up to 2007.
+**Question** Why does the `inner_join` output have 96 observations while the `right_join` output had 97?
+
+#### Anti Join
+
+We can find the source of this discrepancy using an `anti_join`, which returns all rows from the first table where there are not matching values in the second, filtering the output to include just columns from the first table.
+
+``` r
+#Put the supplementary table first to identify discrepancy
+anti_join(supp, gapminder, by = "country")
+```
+
+    ##       country area_km2 capital
+    ## 1 South Sudan   619745    Juba
+
+Interpretating this result, we see that South Sudan became a country in 2011, and is therefore not included in the `gapminder` data set, which includes data up to 2007.
 
 #### Full Join
 
 To keep all data in both tables, we can use the `full_join` function
 
 ``` r
-str((full <- full_join(gapminder, supp, by = "country")))
+str((full_join(gapminder, supp, by = "country")))
 ```
-
-    ## Warning: Column `country` joining factors with different levels, coercing
-    ## to character vector
 
     ## Classes 'tbl_df', 'tbl' and 'data.frame':    1705 obs. of  8 variables:
     ##  $ country  : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...

@@ -4,7 +4,7 @@ Stephen Chignell
 October 9, 2018
 
 -   [Overview](#overview)
--   [Data Reshaping](#data-reshaping)
+    -   [Activity \#1: Cheat Sheet](#activity-1-cheat-sheet)
 
 Overview
 --------
@@ -18,9 +18,6 @@ Overview
 
 It is fine to work with a new dataset and/or create variations on these problem themes.
 
-Data Reshaping
---------------
+### Activity \#1: Cheat Sheet
 
-**Problem:** You have data in one “shape” but you wish it were in another. Usually this is because the alternative shape is superior for presenting a table, making a figure, or doing aggregation and statistical analysis.
-
-**Solution:** Reshape your data. For simple reshaping, gather() and spread() from tidyr will suffice. Do the thing that is possible / easier now that your data has a new shape.
+I have developed a separate [Cheat Sheet](https://github.com/STAT545-UBC-students/hw04-schignel/blob/master/Reshaping_in_tidyR_-_cheat_sheet.md), which is stored in the Homework 4 repository.

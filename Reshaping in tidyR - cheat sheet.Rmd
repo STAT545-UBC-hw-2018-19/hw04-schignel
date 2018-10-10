@@ -41,7 +41,7 @@ The primary functions are below.
 
 
 ###Demonstration
-We will demo the `spread` and `gather`, since they are the most commonly used. First, load the required libraries:
+We will demo the `spread` and `gather` functions, since they are the most commonly used. First, load the required libraries:
 
 ```{r libraries}
 suppressPackageStartupMessages(library(tidyr))

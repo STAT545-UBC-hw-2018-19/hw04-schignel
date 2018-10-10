@@ -1,5 +1,5 @@
 ---
-title: "Reshaping in tidyR (cheat sheet)"
+title: "Reshaping in tidyr (cheat sheet)"
 author: "Stephen Chignell"
 date: "October 9, 2018"
 output:
@@ -9,17 +9,82 @@ output:
 
 ##Reshaping data
 
-One of the strengths of dplyr and tidyr is their ability to quickly change the layout of "messy" data into data structures that are more conducive for exploratory analysis and graphing. 
+One of the strengths of `dplyr` and `tidyr` is their ability to quickly change the layout of "messy" data into data structures that are conducive for exploratory analysis and graphing. 
 
-The most important functions are: 
+###Functions
+The primary functions are below. 
 
-
-| Function       | What it does                     | Another way to think about it   | 
+| Function       | What it does                     | Another way to think about it   |
 |----------------|----------------------------------|---------------------------------|
 |  `gather()`    | transform data from wide to long | Gather columns into rows        |
 |  `spread()`    | transform data from long to wide | Spread rows into columns        |
-|  `separate()`  | split 1 variable into multiple   | Separate one column into several|
-|  `unite()`     | merge multiple varialbes into one| Unite several columns into one  |
+|  `separate()`  | split 1 variable into multiple   | Separate 1 column into several  |
+|  `unite()`     | merge multiple varialbes into 1  | Unite several columns into 1    |
 
 
+- "Wide" = More **Horizontal**
+- "Long" = More **Vertical**
 
+
+**Arguments**
+
+`gather(data, key, value, na.rm = FALSE)`
+
++ `data` = the data frame (can omit when piping)
++ `key` = what you want to call the new column name from headers
++ `value` = what you want to call the new column name from stacked columns 
++ `na.rm` = items to include/exclude
+    + Use a "-" to speficify an exclusion
+    + You can specify single or multiple items
+    + If left blank, it will try to gather **all** columns
+    
+
+
+###Demonstration
+We will demo the `spread` and `gather`, since they are the most commonly used. First, load the required libraries:
+
+```{r libraries}
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(knitr))
+
+```
+
+####Create some sample data
+Suppose you have some data on baseball teams and their runs in a number of games:
+
+```{r baseball}
+baseball <- data.frame(
+   ID = LETTERS[1:10],
+   Blue_Jays = sample(0:1, 5, TRUE),
+   Cardinals = sample(0:1, 5, TRUE),
+   Cubs = sample(0:1, 5, TRUE),
+   Mariners = sample(0:1, 5, TRUE)
+   )
+knitr::kable(baseball)
+```
+
+####Gather the data
+```{r gather}
+bb.long <- gather(baseball,Teams, Runs, -c(ID)) #exclude the "ID" field
+knitr::kable(bb.long)
+```
+
+
+Notice it is now in **long** format, and "ID" has been excluded from the `gather` process.
+
+
+####Spread the data back out
+```{r spread}
+bb.long %>% 
+  spread(Teams, Runs) %>% #no need to specify dataset when piping
+  knitr::kable()
+```
+
+###Additional Resources
+In order of increasing detail:
+
++ [tidyr in a nutshell](https://github.com/trinker/tidyr_in_a_nutshell/blob/master/README.md)
++ [RStudio Data Wrangling (Ctrl+F for "gather")](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
++ [Guru99 dplyr](https://www.guru99.com/r-dplyr-tutorial.html)
++ [tidyverse documentation](https://tidyr.tidyverse.org/index.html)

@@ -18,20 +18,92 @@ output:
 
 It is fine to work with a new dataset and/or create variations on these problem themes.
 
-### Reshaping 
+## Reshaping Activity #1: Cheat Sheet
 
-####Activity #1: Cheat Sheet
-I have developed a separate reshaping [Cheat Sheet](https://github.com/STAT545-UBC-students/hw04-schignel/blob/master/Reshaping_in_tidyR_-_cheat_sheet.md), which is stored in the Homework 4 repository.
+I have developed a separate reshaping [Cheat Sheet](https://github.com/STAT545-UBC-students/hw04-schignel/blob/master/Reshaping_in_tidyR_-_cheat_sheet.md), which is stored in my Homework 4 repository.
 
 
-### Joining
+## Joining Activity #1: Supplementary data
 
-####Activity #1
-Activity #1
+**Instructions:** Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a dplyr join function and make some observations about the process and result.
 
-Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a dplyr join function and make some observations about the process and result. Explore the different types of joins. Examples of a second data frame you could build:
+####Load libraries
+```{r gapminder}
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(knitr))
+suppressPackageStartupMessages(library(gapminder))
+```
 
-+ One row per country, a country variable and one or more variables with extra info, such as language spoken, NATO membership, national animal, or capitol city.
-+ One row per continent, a continent variable and one or more variables with extra info, such as northern versus southern hemisphere.
+####Create new table
+Next, we will create a new data frame with supplementary information for a subset of the `gapminder` records.
+
+```{r supplementary}
+# Create a list of country names
+country <- c("Argentina", "Ethiopia", "Senegal", "Indonesia", "China", "Canada", "Germany", "Australia", "South Sudan") 
+
+# List area (km2) for each country
+area_km2 <- c(2780400, 1127127, 196190, 1919440, 9706961, 9984670, 357021, 7692024, 619745)
+
+# List capital city for each country
+capital <- c("Buenos Aires", "Addis Ababa", "Dakar", "Jakarta", "Beijing", "Ottowa", "Berlin", "Canberra", "Juba")
+
+#Save vectors to new data frame
+supp <- data.frame(country, area_km2, capital)
+
+#View supplementary data frame as a nice table
+knitr::kable(supp, caption = "Supplementary country data")
+```
+
+**Table data sources**
+
++ [Country areas](https://simple.wikipedia.org/wiki/List_of_countries_by_area?oldformat=true)
++ [Country capitals](https://www.countries-ofthe-world.com/capitals-of-the-world.html)
+
+
+We are now ready to practice different types of joins between the supplementatry data frame and the gapminder dataset. 
+
+####Left Join
+`left_join` is the most common way to merge to data sets:
+```{r left join}
+left_join(gapminder, supp, by = "country") %>% 
+  str() #pipe to str() to inspect without generating massive table
+```
+
+Because we specificied `gapminder` as the lefthand column, `left_join` kept all of the `gapminder` records while successfully joining the `area_km2` and `capital` variables to it. Notice that the funtion has inserted "NA" values for countries not listed in the supplementary table. 
+
+####Right Join
+`right_join` is the same as `left_join`, except that it keeps 
+```{r right join}
+right_join(gapminder, supp, by = "country") %>% 
+  str()
+```
+
+
+####Inner Join
+While keeping all of the data may be useful in some contexts, what if we wanted an output containing only the countries listed in both datasets?
+
+For this we use the `inner_join` function:
+```{r inner join}
+knitr::kable(head(inner <- inner_join(gapminder, supp, by = "country")))
+```
+
+We can see that the variables `area_km2` and `capital` are joined, but we can't see from this table whether or not it removed the records that didn't match. Let's check with the `str()` function.  
+```{r inner str}
+str(inner)
+```
+
+We can see that the `gapminder` dataset has been reduced from 1704 to 96 observations, and that the two additiona variables from the supplementary table are have been joined. 
+
+**Question** Why does the `inner_join` output have 96 observations while the `right_join` output had 97? Reviewing the supplementary data table shows that it includes South Sudan, which became a country in 2011, and is therefore not included in the `gapminder` data set, which only has data up to 2007.  
+
+
+####Full Join
+To keep all data in both tables, we can use the `full_join` function
+```{r full join}
+str((full <- full_join(gapminder, supp, by = "country")))
+```
+Here we see that the output has 1705 observations of 8 variables, indicating that operation has kept all data from both tables, and replaced missing data cells with "NA".
+
 
 
